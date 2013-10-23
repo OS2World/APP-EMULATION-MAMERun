@@ -1,0 +1,77 @@
+/* Menu events - Check ~Current Set */
+Arg window self
+
+
+
+/* remove the trailing "/" from the mamedir var because DIRECTORY doesn't like it */
+    mamedirlen=length(mamedir)  
+    chmamedir=left(mamedir,mamedirlen-1)
+
+/* Get item value 1041 Container */
+set = VpGetItemValue(window,1041)
+
+/* Check to see if the set is in the alt rom dir */
+goaltdir=0
+romlength=LENGTH(rom)
+if romlength > 5
+  then
+    do
+      if substr(rom,(romlength-5)) = '[alt]' then
+        goaltdir=1
+    end
+
+
+/* index the container val against gamename */
+if length(rom) > 0 then
+  do
+    do i = 1 to gamedescrip.0
+      if rom=gamedescrip.i then
+        rom=gamename.i
+      end /* end do */
+  end
+
+
+
+
+
+/********** set check on selected set  ***********/
+setchk=inipath||'\setchk.txt'
+setchkbat=inipath||'\setchk.bat'
+listcall=mameprog||' '||rom||' -verifysets >'setchk
+gomamedir='cd '||chmamedir
+altromdirlen=length(altromdir)  
+if altromdirlen > 1 then
+  do
+    chaltromdir=left(altromdir,altromdirlen-1)
+    goaltromdir='cd '||chaltromdir
+  end
+
+exitcall=STREAM(xitpath,'C','QUERY EXISTS')
+
+CALL LINEOUT romchkbat,mamedrive,1
+if goaltdir=0
+  then
+    CALL LINEOUT romchkbat,gomamedir 
+  else
+    do
+      CALL LINEOUT romchkbat,altromdrive
+      CALL LINEOUT romchkbat,goaltromdir
+    end 
+CALL LINEOUT romchkbat,listcall
+CALL LINEOUT romchkbat,xit
+rc=stream(romchkbat,'c','close')
+romchkrun='/C /F /WIN 'romchkbat
+/* run the batchfile to do ROM checking */
+Start romchkrun
+
+DO UNTIL LENGTH(exitcall) > 0
+  call SysSleep 1
+  exitcall=STREAM(xitpath,'C','QUERY EXISTS')
+END
+rc=SysFileDelete(exitfile)
+CALL VpWindow window,'DISABLESTDIO'
+romchkepm='/F /PM e.exe '||romchk
+Start romchkepm
+CALL VpWindow window,'ENABLESTDIO'
+
+/* rc=SysFileDelete(romchkbat) */

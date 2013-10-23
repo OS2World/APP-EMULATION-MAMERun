@@ -1,0 +1,26 @@
+/* Event Clicked/selected - Find...  1003 */
+Arg window self
+
+
+
+
+
+
+
+
+dirsearch=0
+/* Open the form C:\Desktop\MAMERun!2\finddir */
+/* value=VpOpenForm(window, 259, 'topic name') */
+
+mameprog=VpFileDialog(window,'OPEN','MAME.EXE','MAMERun/2 - Find')
+call vpsetitemvalue window,1002,mameprog
+
+/* set the mame program file */
+mameprog=vpgetitemvalue(window,1002)
+
+rc=stream(mameprog,'C','QUERY EXISTS')
+
+IF length(rc) > 0 THEN
+  DO
+
+

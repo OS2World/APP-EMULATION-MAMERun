@@ -1,0 +1,48 @@
+/* Menu events - Check ~All ROMs */
+Arg window self
+
+/* remove the trailing "/" from the mamedir var because DIRECTORY doesn't like it */
+    mamedirlen=length(mamedir)  
+    chmamedir=left(mamedir,mamedirlen-1)
+
+/********** ROM check on all roms  ***********/
+romchk=inipath||'\romchk.txt'
+romchkbat=inipath||'\romchk.bat'
+listcall=mameprog||' * -verifyroms >'romchk
+listcall2=mameprog||' * -verifyroms >>'romchk
+gomamedir='cd '||chmamedir
+altromdirlen=length(altromdir)
+if altromdirlen > 0 then
+  do  
+    chaltromdir=left(altromdir,altromdirlen-1)
+    goaltromdir='cd '||chaltromdir
+  end
+  
+exitcall=STREAM(xitpath,'C','QUERY EXISTS')
+
+CALL LINEOUT romchkbat,mamedrive,1
+CALL LINEOUT romchkbat,gomamedir 
+CALL LINEOUT romchkbat,listcall
+if altromdirlen > 0 then
+  do
+    CALL LINEOUT romchkbat,altromdrive
+    CALL LINEOUT romchkbat,goaltromdir 
+    CALL LINEOUT romchkbat,listcall2
+  end
+CALL LINEOUT romchkbat,xit
+rc=stream(romchkbat,'c','close')
+romchkrun='/C /F /WIN 'romchkbat
+/* run the batchfile to do ROM checking */
+Start romchkrun
+
+DO UNTIL LENGTH(exitcall) > 0
+  call SysSleep 1
+  exitcall=STREAM(xitpath,'C','QUERY EXISTS')
+END
+rc=SysFileDelete(exitfile)
+CALL VpWindow window,'DISABLESTDIO'
+romchkepm='/F /PM e.exe '||romchk
+Start romchkepm
+CALL VpWindow window,'ENABLESTDIO'
+
+rc=SysFileDelete(romchkbat)

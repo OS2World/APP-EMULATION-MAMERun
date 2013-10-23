@@ -1,0 +1,520 @@
+/* Event Mouse button 1 double click - Container  1041 */
+Arg window self index
+
+
+options=''
+
+/*  this is the build of the whole variable string to call MAME */
+/* get the values of all the checkboxes */
+/* 1 Get item value 1000 Spin Button */
+joystick = VpGetItemValue(window,1000)
+  if joystick='none' then
+    op1=''
+  else
+    do
+      op1=' -joy '||joystick
+      options=options||op1
+    end
+/* 2 Get button state Mouse1003 Check Box */
+mouse = VpIsSelected(window,1003)
+  if mouse='1' then
+    op2=''
+  else
+    do
+      op2=' -nomouse'
+      options=options||op2
+    end
+/* 3 Get item value 1004 Spin Button */
+soundcard = VpGetItemValue(window,1004)
+if soundcard='silence' then
+  do
+    op3=' -soundcard 0'
+    op4=''
+    op5=''
+    op6=''
+    op7=''
+    op8=''
+    options=options||op3
+  end
+else
+  do
+    select 
+     when soundcard='SoundBlaster'
+      then
+        op3=' -soundcard 1'            
+     when soundcard='SBlasterPro'
+      then
+        op3=' -soundcard 2'
+     when soundcard='ProAudioSpec'
+      then
+        op3=' -soundcard 3'
+     when soundcard='UltraSoundMax'
+      then
+        op3=' -soundcard 4'
+     when soundcard='UltraSound'
+      then
+        op3=' -soundcard 5'
+     when soundcard='WinSoundSys'
+      then
+        op3=' -soundcard 6'
+     when soundcard='Ensoniq'
+      then
+        op3=' -soundcard 7'
+     otherwise
+        op3=' -soundcard 0'
+    end /* end select */
+  options=options||op3
+    /* 4 Get item value 1010 Spin Button */
+    samplerate = VpGetItemValue(window,1010)
+    if samplerate='22050' then
+      op4=''
+    else
+      do
+      op4=' -sr '||samplerate
+      options=options||op4
+      end
+/* 5 Get button state 16 bit sample1008 Check Box */
+    sample16bit = VpIsSelected(window,1008)
+    if sample16bit=16 then
+      do
+      op5=' -sb'||samplebit
+      options=options||op5
+      end
+    else
+      op5=''
+/* 6 Get button state Stereo1009 Check Box */
+    stereo = VpIsSelected(window,1009)
+    if stereo='1' then
+      op6=''
+    else
+      do
+      op6=' -nostereo'
+      options=options||op6
+      end
+/* 7 Get button state OPL FM emulation1007 Check Box */
+    opl = VpIsSelected(window,1007)
+    if opl='1' then
+      do
+      op7=' -ym3812opl'
+      options=options||op7
+      end
+    else
+      op7=''
+/* 8 Get arm position 1043 Slider */
+    volume=VpGetItemValue(window, 1043, 'GETARMPOS')
+    if volume='21' then
+      op8=''
+    else
+      do
+      if volume < '21' then
+        do
+        op8=' -volume '||(volume-(volume*2))
+        options=options||op8
+        end
+      else
+        do
+        op8=' -volume '||(volume-20)
+        options=options||op8
+        end
+      end    
+end 
+    
+/* 9 Get button state Tweaked VGA1012 Check Box */
+tweak = VpIsSelected(window,1012)
+  if tweak='1' then
+    do
+    op9=' -tweak'
+    options=options||op9
+    end
+  else
+    op9=''
+/* 10 Get button state Stretch Vid1015 Check Box */
+stretch = VpIsSelected(window,1015)
+  if stretch='1' then
+    op10=''
+  else
+    do
+    op10=' -nostretch' 
+    options=options||op10
+    end
+/* 11 Get button state Vsync1020 Check Box */
+vsync = VpIsSelected(window,1020)
+ if vsync='1' then
+   do
+   op11=' -vsync'
+   options=options||op11
+   end
+   else
+     op11=''
+/* 12 Get button state Always Synced1021 Check Box */
+alwaysync = VpIsSelected(window,1021)
+  if alwaysync='1' then
+    do
+    op12=' -alwayssynced'
+    options=options||op12
+    end
+  else
+    op12=''
+/* 13 Get button state Triple Buffering1022 Check Box */
+tripbuff = VpIsSelected(window,1022)
+  if tripbuff='1' then
+    do
+    op13=' -triplebuffer'
+    options=options||op13
+    end
+  else
+    op13=''
+/* 14 Get button state Scanlines1014 Check Box */
+scanlines = VpIsSelected(window,1014)
+  if scanlines='1' then
+    op14=''
+  else
+    do
+    op14=' -noscanlines'
+    options=options||op14
+    end
+/* 15 Get item value 1018 Spin Button */
+vgafreq = VpGetItemValue(window,1018)
+  if vgafreq='0' then
+    op15=''
+  else
+    do
+    op15=' -vgafreq '||vgafreq
+    options=options||op15
+    end
+/* 16 Get button state NTSC1013 Check Box */
+ntsc = VpIsSelected(window,1013)
+  if ntsc='1' then
+    do
+    op16=' -ntsc'
+    options=options||op16
+    end
+  else
+    op16=''
+/* 17 Get item value 1016 Spin Button */
+coldpth = VpGetItemValue(window,1016)
+  if coldpth='16' then
+    op17=''
+  else
+    do
+    op17=' -depth '||coldpth
+    options=options||op17
+    end
+/* 18 Get item value 1023 Spin Button */
+monitor = VpGetItemValue(window,1023)
+  if monitor='standard' then
+    op18=''
+  else
+    do
+    op18=' -monitor '||monitor
+    options=options||op18
+    end
+/* 19 Get item value 1025 Spin Button */
+rot = VpGetItemValue(window,1025)
+  if rot='right' then
+    do
+    op19=' -ror'
+    options=options||op19
+    end
+  else
+    do
+    if rot='left' then
+      do
+      op19=' -rol'
+      options=options||op19
+      end
+    else
+      op19=''
+    end
+/* 20 Get button state Flip X1027 Check Box */
+flipx = VpIsSelected(window,1027)
+  if flipx='1' then
+    do
+    op20=' -flipx'
+    options=options||op20
+    end
+  else
+    op20=''
+/* 21 Get button state Flip Y1028 Check Box */
+flipy = VpIsSelected(window,1028)
+  if flipy='1' then
+    do
+    op21=' -flipy'
+    options=options||op21
+    end
+  else
+    op21=''
+/* 22 Get button state No Rotate1029 Check Box */
+norot = VpIsSelected(window,1029)
+  if norot='1' then
+    do
+    op22=' -norotate'
+    options=options||op22
+    end
+  else
+    op22=''
+/* 23 Get item value 1040 Spin Button */
+frameskip = VpGetItemValue(window,1040)
+  if frameskip='auto' then
+    op23=''
+  else
+    do
+    op23=' -frameskip '||frameskip
+    options=options||op23
+    end
+/* 24 Get button state Wait interlace1046 Check Box */
+waitint = VpIsSelected(window,1046)
+  if waitint=1 then
+    do
+      op24=' -waitinterlace'
+      options=options||op24
+    end
+  else
+    op24=''
+/* 25 Get button state Antialiasing1030 Check Box */
+antiali = VpIsSelected(window,1030)
+  if antiali='1' then
+    op25=''
+  else
+    do
+      op25=' -noantialias'
+      options=options||op25
+    end
+/* 26 Get item value 1047 Spin Button */
+beam = VpGetItemValue(window,1047)
+if beam=1 then
+  op26=''
+else
+  do
+    op26=' -beam '||beam
+    options=options||op26
+  end
+/* 27 Get item value 1048 Spin Button */
+flicker = VpGetItemValue(window,1048)
+if flicker=0 then
+  op27=''
+else
+  do
+    op27=' -flicker '||flicker
+    options=options||op27
+  end
+/* 28 Get button state Translucency1051 Check Box */
+transluc = VpIsSelected(window,1051)
+if transluc=1 then
+  op28=''
+else
+  do
+    op28=' -notranslucency'
+    options=options||op28
+  end
+/* 29 Get item value 1054 Spin Button */
+resolution = VpGetItemValue(window,1054)
+if resolution='auto' then
+  op29=''
+else
+  do
+    op29=' -resolution '||resolution
+    options=options||op29
+  end
+/* 30 Get button state Windowed1056 Check Box */
+windowed = VpIsSelected(window,1056)
+/* 31 Get button state Create Error Log1031 Check Box */
+errlog = VpIsSelected(window,1031)
+  if errlog='1' then
+    do
+    op31=' -log'
+    options=options||op31
+    end
+  else
+    op31=''
+/* 32 Get button state Debug1033 Check Box */
+debug = VpIsSelected(window,1033)
+  if debug='1' then
+    do
+    op32=' -debug'
+    options=options||op32
+    end
+  else
+    op32=''
+/* 33 Get button state Cheats1032 Check Box */
+cheat = VpIsSelected(window,1032)
+  if cheat='1' then
+    do
+    op33=' -cheat'
+    options=options||op33
+    end
+  else
+    op33=''
+/* 34 Get button state Ignore Mame Config1037 Check Box */
+igncfg = VpIsSelected(window,1037)
+  if igncfg='1' then
+    do
+    op34=' -ignorecfg'
+    options=options||op34
+    end
+  else
+    op34=''
+/* 35 to 38 Get button state Record1034 Check Box */
+record = VpIsSelected(window,1034)
+  if record='1' then
+    do
+      /* Get item value 1035 Entry Field */
+      recfile = VpGetItemValue(window,1035)
+      op35=' -record '||recfile
+      options=options||op35
+    end
+  else
+    do
+      op35=''
+      /* 37 Get button state Play1052 Check Box */
+      play = VpIsSelected(window,1052)
+      if play=1 then
+        do
+          /* 38 Get item value 1053 Entry Field */
+          playfile = VpGetItemValue(window,1053)
+          op37=' -playback '||playfile
+          options=options||op37
+        end
+    end
+ 
+
+/* Get item value 1041 Container */
+rom = VpGetItemValue(window,1041)
+
+/* Check to see if the ROM is in the alt ROM dir */
+goaltdir=0
+romlength=LENGTH(rom)
+if romlength > 5
+  then
+    do
+      if substr(rom,(romlength-5)) = '[alt]' then
+        goaltdir=1
+    end
+
+
+/* index the container val against gamename */
+if length(rom) > 0 then
+  do
+    do i = 1 to gamedescrip.0
+      if rom=gamedescrip.i then
+        rom=gamename.i
+    end /* end do */
+  end
+
+/* set the full file specs for the main rom path and the alt rom path*/
+fullrompath=romdir||rom||'.zip'
+fullaltrompath=altromdir||rom||'.zip'
+fullaltromcfg=altromdir||'mame.cfg'
+fullmamecfg=mamedir||'mame.cfg'
+
+/* remove the extention off the rom file so that mamecall just calls the roms name */
+parse value rom with,
+ romname'.'ext
+ 
+
+/* rc=SYSSEARCHPATH(romdir,rom ) */
+rc=STREAM(fullrompath,'C','QUERY EXISTS')
+IF LENGTH(rc) > 0 & goaltdir=0 THEN
+  DO
+/* remove the trailing "/" from the mamedir var because DIRECTORY doesn't like it */
+    mamedirlen=length(mamedir)  
+    chmamedir=left(mamedir,mamedirlen-1)
+       
+/* remove the full path from mameprog so mamecall just uses the EXE */
+    mameexe=filespec("name",mameprog)
+
+/* set the mame.bat file and dir */
+    mamebat=inipath||'\'||'mamerun.bat'
+/* delete the mame.bat file in case its corrupt */    
+    rc=sysfiledelete(mamebat)
+  
+    
+/* build the mame.bat commands */
+/*     memchck='mem /c >mem.txt' */
+    chdrvln=mamedrive
+    chdirln='CD '||chmamedir
+    mamecall=mameexe||' 'romname||options
+
+/* write the commands to mame.bat */
+   IF LENGTH(extcmd) > 0 THEN
+      CALL LINEOUT mamebat,extcmd,1
+    CALL LINEOUT mamebat,chdrvln
+    CALL LINEOUT mamebat,chdirln
+    CALL LINEOUT mamebat,mamecall
+    CALL LINEOUT mamebat,'exit'
+    rc=stream(mamebat,'c','close')
+    
+/*  changing directory before going to dos in case directory isnt valid in dos */
+ call directory inipath
+/* must set the /DOS switch for fullscreen session */
+/* starting mame with startd */
+if windowed=1 then
+  STARTD '/C /FG /WIN /FG /SF mamerun.cfg mamerun.bat'
+else
+  STARTD '/C /DOS /FS /FG /SF mamerun.cfg mamerun.bat'
+
+END
+
+ELSE
+  DO
+  
+/* rc=SYSSEARCHPATH(altromdir,rom ) */
+rc=STREAM(fullaltrompath,'C','QUERY EXISTS')
+IF LENGTH(rc) > 0 & goaltdir=1 THEN
+  DO
+/* remove the trailing "\" from the altromdir var because DIRECTORY doesn't like it */
+    altdirlen=length(altromdir)  
+    chaltdir=left(altromdir,altdirlen-1)
+       
+/* set the mame.bat file and dir */
+    mamebat=inipath||'\'||'mamerun.bat'
+/* delete the mame.bat file in case its corrupt */    
+    rc=sysfiledelete(mamebat)
+
+/* build the mame.bat commands */
+    chdrvln=filespec('drive',fullaltrompath)
+    chdirln='CD '||chaltdir
+    mamecall=mameprog||' 'romname||options
+    
+    
+/* write the commands to mame.bat */
+    IF LENGTH(extcmd) > 0 THEN
+      CALL LINEOUT mamebat,extcmd,1
+    CALL LINEOUT mamebat,chdrvln
+    CALL LINEOUT mamebat,chdirln
+    CALL LINEOUT mamebat,mamecall
+    CALL LINEOUT mamebat,'exit'
+    rc=stream(mamebat,'c','close')
+    
+/* check to see if there is a copy of the mame.cfg in the alt rom path */
+/* if so deletes it and copies the one from the mame dir */
+rc=STREAM(fullaltromcfg,'C','QUERY EXISTS')
+IF LENGTH(rc) > 0 THEN
+  DO
+    rc=sysfiledelete(fullaltromcfg)
+    rc=syscopyobject(fullmamecfg,chaltdir)
+  END 
+  ELSE
+  DO
+    rc=syscopyobject(fullmamecfg,chaltdir)
+  END
+    
+
+/*  changing directory before going to dos in case directory isnt valid in dos */
+ call directory inipath
+/* must set the /DOS switch for fullscreen session */
+/* starting mame with startd */
+if windowed=1 then
+  if sysver => 4.50 then
+      STARTD '/C /WIN /FG /SF mamerun.cfg mamerun.bat'  
+  else
+
+  STARTD '/C /WIN /FG /SF mamerun.cfg mamerun.bat'
+else
+  STARTD '/C /DOS /FS /FG /SF mamerun.cfg mamerun.bat'
+ 
+  END
+END
+
+
+

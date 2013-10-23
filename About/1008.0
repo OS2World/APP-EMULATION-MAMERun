@@ -1,0 +1,15 @@
+/* Event Clicked/selected - LICENSE  1008 */
+Arg window self
+
+
+
+license=inipath||'\license.txt'
+
+rc=stream(license,'C','QUERY EXISTS')
+
+if (rc > 0) then
+  e rc
+else
+  response=VpMessageBox(window,'MAMERun - License','License.txt does not exist.')
+
+

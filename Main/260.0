@@ -1,0 +1,6 @@
+/* Menu events - ~Directories */
+Arg window self
+
+/* Open the form C:\Desktop\MAMERun!2\Directories */
+value=VpOpenForm(window, 258, 'topic name')
+

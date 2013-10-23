@@ -1,0 +1,6 @@
+/* Menu events - ~Error Log */
+Arg window self
+
+errorlog=mamerundir||'error.log'
+
+rc=stream

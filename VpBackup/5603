@@ -1,0 +1,141 @@
+/* Form events - Closed */
+Arg window 
+
+
+
+/* This code should only be executed in some weird circumstance */
+
+/* Delete mamerun.cfg, left behind f 
+
+
+IF inisize < 42  THEN
+DO
+
+blank=' '
+
+/* get the values of all the checkboxes */
+/* 1 Get item value 1000 Spin Button */
+joystick = VpGetItemValue(window,1000)
+/* 2 Get button state Mouse1003 Check Box */
+mouse = VpIsSelected(window,1003)
+/* 3 Get item value 1004 Spin Button */
+soundcard = VpGetItemValue(window,1004)
+/* 4 Get item value 1010 Spin Button */
+    samplerate = VpGetItemValue(window,1010)
+/* 5 Get button state 16 bit sample1008 Check Box */
+    sample16bit = VpIsSelected(window,1008)
+/* 6 Get button state Stereo1009 Check Box */
+    stereo = VpIsSelected(window,1009)
+/* 7 Get button state OPL FM emulation1007 Check Box */
+    opl = VpIsSelected(window,1007)
+/* 8 Get arm position 1043 Slider */
+    volume=VpGetItemValue(window, 1043, 'GETARMPOS')
+/* 9 Get button state Tweaked VGA1012 Check Box */
+tweak = VpIsSelected(window,1012)
+/* 10 Get button state Stretch Vid1015 Check Box */
+stretch = VpIsSelected(window,1015)
+/* 11 Get button state Vsync1020 Check Box */
+vsync = VpIsSelected(window,1020)
+/* 12 Get button state Always Synced1021 Check Box */
+alwaysync = VpIsSelected(window,1021)
+/* 13 Get button state Triple Buffering1022 Check Box */
+tripbuff = VpIsSelected(window,1022)
+/* 14 Get button state Scanlines1014 Check Box */
+scanlines = VpIsSelected(window,1014)
+/* 15 Get item value 1018 Spin Button */
+vgafreq = VpGetItemValue(window,1018)
+/* 16 Get button state NTSC1013 Check Box */
+ntsc = VpIsSelected(window,1013)
+/* 17 Get item value 1016 Spin Button */
+coldpth = VpGetItemValue(window,1016)
+/* 18 Get item value 1023 Spin Button */
+monitor = VpGetItemValue(window,1023)
+/* 19 Get item value 1025 Spin Button */
+rot = VpGetItemValue(window,1025)
+/* 20 Get button state Flip X1027 Check Box */
+flipx = VpIsSelected(window,1027)
+/* 21 Get button state Flip Y1028 Check Box */
+flipy = VpIsSelected(window,1028)
+/* 22 Get button state No Rotate1029 Check Box */
+norot = VpIsSelected(window,1029)
+/* 23 Get item value 1040 Spin Button */
+frameskip = VpGetItemValue(window,1040)
+/* 24 Get button state Wait interlace1046 Check Box */
+waitint = VpIsSelected(window,1046)
+/* 25 Get button state Antialiasing1030 Check Box */
+antiali = VpIsSelected(window,1030)
+/* 26 Get item value 1047 Spin Button */
+beam = VpGetItemValue(window,1047)
+/* 27 Get item value 1048 Spin Button */
+flicker = VpGetItemValue(window,1048)
+/* 28 Get button state Translucency1051 Check Box */
+transluc = VpIsSelected(window,1051)
+/* 29 Get item value 1054 Spin Button */
+resolution = VpGetItemValue(window,1054)
+/* 30 Get button state Windowed1056 Check Box */
+windowed = VpIsSelected(window,1056)
+/* 31 Get button state Create Error Log1031 Check Box */
+errlog = VpIsSelected(window,1031)
+/* 32 Get button state Debug1033 Check Box */
+debug = VpIsSelected(window,1033)
+/* 33 Get button state Cheats1032 Check Box */
+cheat = VpIsSelected(window,1032)
+/* 34 Get button state Ignore Mame Config1037 Check Box */
+igncfg = VpIsSelected(window,1037)
+/* 35 Get button state Record1034 Check Box */
+record = VpIsSelected(window,1034)
+/* 36 Get item value 1035 Entry Field */
+recfile = VpGetItemValue(window,1035)
+/* 37 Get button state Play1052 Check Box */
+play = VpIsSelected(window,1052)
+/* 38 Get item value 1053 Entry Field */
+playfile = VpGetItemValue(window,1053)
+
+
+
+/* save to the ini file */
+CALL LINEOUT iniloc,mameprog,1
+CALL LINEOUT iniloc,altromdir
+CALL LINEOUT iniloc,extcmd
+CALL LINEOUT iniloc,blank
+CALL LINEOUT iniloc,joystick          /* 1  */  
+CALL LINEOUT iniloc,mouse	      /* 2  */
+CALL LINEOUT iniloc,soundcard	      /* 3  */
+CALL LINEOUT iniloc,samplerate        /* 4  */
+CALL LINEOUT iniloc,sample16bit       /* 5  */ 
+CALL LINEOUT iniloc,stereo            /* 6  */
+CALL LINEOUT iniloc,opl               /* 7  */
+CALL LINEOUT iniloc,volume            /* 8  */
+CALL LINEOUT iniloc,tweak             /* 9  */
+CALL LINEOUT iniloc,stretch           /* 10  */
+CALL LINEOUT iniloc,vsync             /* 11  */
+CALL LINEOUT iniloc,alwaysync         /* 12  */
+CALL LINEOUT iniloc,tripbuff          /* 13  */
+CALL LINEOUT iniloc,scanlines         /* 14  */
+CALL LINEOUT iniloc,vgafreq           /* 15  */
+CALL LINEOUT iniloc,ntsc              /* 16  */
+CALL LINEOUT iniloc,coldpth           /* 17  */
+CALL LINEOUT iniloc,monitor           /* 18  */
+CALL LINEOUT iniloc,rot               /* 19  */
+CALL LINEOUT iniloc,flipx             /* 20  */
+CALL LINEOUT iniloc,flipy             /* 21  */
+CALL LINEOUT iniloc,norot             /* 22  */
+CALL LINEOUT iniloc,frameskip         /* 23  */
+CALL LINEOUT iniloc,waitint           /* 24  */
+CALL LINEOUT iniloc,antiali           /* 25  */
+CALL LINEOUT iniloc,beam              /* 26  */
+CALL LINEOUT iniloc,flicker           /* 27  */
+CALL LINEOUT iniloc,transluc          /* 28  */
+CALL LINEOUT iniloc,resolution        /* 29  */
+CALL LINEOUT iniloc,windowed          /* 30  */
+CALL LINEOUT iniloc,errlog            /* 31  */
+CALL LINEOUT iniloc,debug             /* 32  */
+CALL LINEOUT iniloc,cheat             /* 33  */
+CALL LINEOUT iniloc,igncfg            /* 34  */
+CALL LINEOUT iniloc,record            /* 35  */
+CALL LINEOUT iniloc,recfile           /* 36  */
+CALL LINEOUT iniloc,play              /* 37  */
+CALL LINEOUT iniloc,playfile          /* 38  */
+rc=stream(iniloc,'c','close')
+
+END

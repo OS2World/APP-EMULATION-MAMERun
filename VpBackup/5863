@@ -1,0 +1,13 @@
+/* Menu events - ~Read Me */
+Arg window self
+
+
+readme=mamedir||'error.log'
+
+rc=stream(errorlog,'C','QUERY EXISTS')
+
+if (rc > 0) then
+  e rc
+else
+  response=VpMessageBox(window,'MAMERun - Error Log','Error Log does not exist.')
+

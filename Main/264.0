@@ -1,0 +1,390 @@
+/* Menu events - ~Reset to Default */
+Arg window self
+
+/* Get item value 1041 Container */
+rom = VpGetItemValue(window,1041)
+/* index the container val against gamename */
+if length(rom) > 0 then
+  do
+    do i = 1 to gamedescrip.0
+      if rom=gamedescrip.i then
+        rom=gamename.i
+      end /* end do */
+  end
+
+romini=inipath||'\configs\'||rom||'.ini'
+
+rc=stream(romini,'C','QUERY EXISTS')
+  IF LENGTH(rc) > 0 THEN
+     DO
+       rc=sysfiledelete(romini)
+
+/* 1  joystick  */
+select 
+   when defjoystick='none'
+      then
+        CALL VpSetItemValue window,1000,0
+   when defjoystick='auto'
+      then
+        CALL VpSetItemValue window,1000,1
+   when defjoystick='standard'
+      then
+        CALL VpSetItemValue window,1000,2
+   when defjoystick='dual'
+      then
+        CALL VpSetItemValue window,1000,3
+   when defjoystick='4button'
+      then
+        CALL VpSetItemValue window,1000,4
+   when defjoystick='6button'
+      then
+        CALL VpSetItemValue window,1000,5
+   when defjoystick='8button'
+      then
+        CALL VpSetItemValue window,1000,6
+   when defjoystick='fspro'
+      then
+        CALL VpSetItemValue window,1000,7
+   when defjoystick='wingx'
+      then
+        CALL VpSetItemValue window,1000,8
+   when jdefoystick='wingwarrior'
+      then
+        CALL VpSetItemValue window,1000,9
+   when defjoystick='sidewinder'
+      then
+        CALL VpSetItemValue window,1000,10
+   when defjoystick='gamepadpro'
+      then
+        CALL VpSetItemValue window,1000,11
+   when defjoystick='grip'
+      then
+        CALL VpSetItemValue window,1000,12
+   when defjoystick='grip4'
+      then
+        CALL VpSetItemValue window,1000,13
+   when defjoystick='sneslpt1'
+      then
+        CALL VpSetItemValue window,1000,14
+   when defjoystick='psxlpt1'
+      then
+        CALL VpSetItemValue window,1000,15
+   when defjoystick='n64lpt1'
+      then
+        CALL VpSetItemValue window,1000,16
+   otherwise
+        CALL VpSetItemValue window,1000,0
+end /* end select */
+/* 2 mouse */
+if defmouse='1' then
+  CALL VpSelect window,1003,1
+else
+  CALL VpSelect window,1003,0
+/* 3 soundcard */
+select 
+   when defsoundcard='silence'
+      then
+        CALL VpSetItemValue window,1004,0
+   when defsoundcard='SoundBlaster'
+      then
+        CALL VpSetItemValue window,1004,1
+   when defsoundcard='SBlasterPro'
+      then
+        CALL VpSetItemValue window,1004,2
+   when defsoundcard='ProAudioSpec'
+      then
+        CALL VpSetItemValue window,1004,3
+   when defsoundcard='UltraSoundMax'
+      then
+        CALL VpSetItemValue window,1004,4
+   when defsoundcard='UltraSound'
+      then
+        CALL VpSetItemValue window,1004,5
+   when defsoundcard='WinSoundSys'
+      then
+        CALL VpSetItemValue window,1004,6
+   when defsoundcard='Ensoniq'
+      then
+        CALL VpSetItemValue window,1004,7
+   otherwise
+        CALL VpSetItemValue window,1004,0
+end /* end select */
+/* 4 samplerate */
+select 
+   when defsamplerate='22050'
+     then
+       CALL VpSetItemValue window,1010,0
+   when defsamplerate='11025'
+     then
+       CALL VpSetItemValue window,1010,1
+   when defsamplerate='44100'
+     then
+       CALL VpSetItemValue window,1010,2     
+   otherwise
+       CALL VpSetItemValue window,1010,0
+end /* end select */
+/* 5 sample16bit */
+if defsample16bit='1' then
+  CALL VpSelect window,1008,1
+else
+  CALL VpSelect window,1008,0
+/* 6 stereo */
+if defstereo='1' then
+  CALL VpSelect window,1009,1
+else
+  CALL VpSelect window,1009,0
+/* 7 opl */
+if defopl='1' then
+  CALL VpSelect window,1007,1
+else
+  CALL VpSelect window,1007,0
+/* 8 volume */
+CALL VpSetItemValue window, 1043, 'SETARMPOS', defvolume
+/* 9 tweak */
+if deftweak='1' then
+  CALL VpSelect window,1012,1
+else
+  CALL VpSelect window,1012,0
+/* 10 stretch */
+if defstretch='1' then
+  CALL VpSelect window,1015,1
+else
+  CALL VpSelect window,1015,0
+/* 11 vsync */
+if defvsync='1' then
+  CALL VpSelect window,1020,1
+else
+  CALL VpSelect window,1020,0
+/* 12 alwaysync */
+if defalwaysync='1' then
+  CALL VpSelect window,1021,1
+else
+  CALL VpSelect window,1021,0
+/* 13 tripbuff */
+if deftripbuff='1' then
+  CALL VpSelect window,1022,1
+else
+  CALL VpSelect window,1022,0
+/* 14 scanlines */
+if defscanlines='1' then
+  CALL VpSelect window,1014,1
+else
+  CALL VpSelect window,1014,0
+/* 15 vgafreq */
+select 
+   when defvgafreq='0'
+      then
+        CALL VpSetItemValue window,1018,0
+   when defvgafreq='1'
+      then
+        CALL VpSetItemValue window,1018,1
+   when defvgafreq='2'
+      then
+        CALL VpSetItemValue window,1018,2
+   when defvgafreq='3'
+      then
+        CALL VpSetItemValue window,1018,3
+   otherwise
+        CALL VpSetItemValue window,1018,0
+end /* end select */
+/* 16 ntsc */
+if defntsc='1' then
+  CALL VpSelect window,1013,1
+else
+  CALL VpSelect window,1013,0
+/* 17 coldpth */
+select 
+   when defcoldpth='16'
+      then
+        CALL VpSetItemValue window,1016,0
+   when defcoldpth='8'
+      then
+        CALL VpSetItemValue window,1016,1
+   when defcoldpth='24'
+      then
+        CALL VpSetItemValue window,1016,2
+   when defcoldpth='32'
+      then
+        CALL VpSetItemValue window,1016,3
+   otherwise
+        CALL VpSetItemValue window,1016,0
+end /* end select */
+/* 18 monitor */
+select 
+   when defmonitor='standard'
+      then
+        CALL VpSetItemValue window,1023,0
+   when defmonitor='ntsc'
+      then
+        CALL VpSetItemValue window,1023,1
+   when defmonitor='pal'
+      then
+        CALL VpSetItemValue window,1023,2
+   when defmonitor='arcade'
+      then
+        CALL VpSetItemValue window,1023,3
+   otherwise
+        CALL VpSetItemValue window,1023,0
+end /* end select */
+/* 19 rot */
+select 
+   when defrot='none'
+      then
+        CALL VpSetItemValue window,1025,0
+   when defrot='right'
+      then
+        CALL VpSetItemValue window,1025,1
+   when defrot='left'
+      then
+        CALL VpSetItemValue window,1025,2
+   otherwise
+        CALL VpSetItemValue window,1025,0
+end /* end select */
+/* 20 flipx */
+if defflipx='1' then
+  CALL VpSelect window,1027,1
+else
+  CALL VpSelect window,1027,0
+/* 21 flipy */
+if defflipy='1' then
+  CALL VpSelect window,1028,1
+else
+  CALL VpSelect window,1028,0
+/* 22 norot */
+if defnorot='1' then
+  CALL VpSelect window,1029,1
+else
+  CALL VpSelect window,1029,0
+/* 23 frameskip */
+if defframeskip='auto' then
+  CALL VpSetItemValue window,1040,0
+else
+  do
+    if length(defframeskip) > 0 then
+      CALL VpSetItemValue window,1040,defframeskip
+    else
+      CALL VpSetItemValue window,1040,0
+  end
+/* 24 wait interlace */
+if defwaitint=1 then
+  CALL VpSelect window,1046,1
+else
+  CALL VpSelect window,1046,0
+/* 25 antiali */
+if defantiali='1' then
+  CALL VpSelect window,1030,1
+else
+  CALL VpSelect window,1030,0
+/* 26 beam */
+if defbeam > 1 then
+  CALL VpSetItemValue window,1047,(defbeam-1)
+else
+  CALL VpSetItemValue window,1047,0
+/* 27 flicker */
+if defflicker = 0 then
+  CALL VpSetItemValue window,1048,0
+else
+  CALL VpSetItemValue window,1048,defflicker
+/* 28 translucency */
+if deftransluc=1 then
+  CALL VpSelect window,1051,1
+else
+  CALL VpSelect window,1051,0
+/* 29 resolution */
+select 
+  when defresolution='auto'
+    then
+      CALL VpSetItemValue window,1054,0
+  when defresolution='320x240'
+    then
+      CALL VpSetItemValue window,1054,1
+  when defresolution='320x400'
+    then
+      CALL VpSetItemValue window,1054,2
+  when defresolution='320x480'
+    then
+      CALL VpSetItemValue window,1054,3
+  when defresolution='400x300'
+    then
+      CALL VpSetItemValue window,1054,4
+  when defresolution='480x360'
+    then
+      CALL VpSetItemValue window,1054,5
+  when defresolution='512x384'
+    then
+      CALL VpSetItemValue window,1054,6
+  when defresolution='640x400'
+    then
+      CALL VpSetItemValue window,1054,7
+  when defresolution='640x480'
+    then
+      CALL VpSetItemValue window,1054,8
+  when defresolution='800x600'
+    then
+      CALL VpSetItemValue window,1054,9
+  when defresolution='1024x768'
+    then
+      CALL VpSetItemValue window,1054,10
+  when defresolution='1152x864'
+    then
+      CALL VpSetItemValue window,1054,11
+  when defresolution='1280x960'
+    then
+      CALL VpSetItemValue window,1054,12
+  when defresolution='1280x1024'
+    then
+      CALL VpSetItemValue window,1054,13
+  when defresolution='1600x1200'
+    then
+      CALL VpSetItemValue window,1054,14
+  otherwise
+     CALL VpSetItemValue window,1054,0 
+end /* end select */
+/* 30 windowed */
+if defwindowed=1 then
+  CALL VpSelect window,1056,1
+else
+  CALL VpSelect window,1056,0
+/* 31 errlog */
+if deferrlog='1' then
+  CALL VpSelect window,1031,1
+else
+  CALL VpSelect window,1031,0
+/* 32 debug */
+if defdebug='1' then
+  CALL VpSelect window,1033,1
+else
+  CALL VpSelect window,1033,0
+/* 33 cheat */
+if defcheat='1' then
+  CALL VpSelect window,1032,1
+else
+  CALL VpSelect window,1032,0
+/* 34 igncfg */
+if defigncfg='1' then
+  CALL VpSelect window,1037,1
+else
+  CALL VpSelect window,1037,0
+/* 35 & 36 record & recfile */
+if defrecord='1' then
+  do
+    CALL VpSelect window,1034,1
+    CALL VpSetItemValue window,1035,defrecfile
+  end 
+else
+  do
+    CALL VpSelect window,1034,0
+    CALL VpSetItemValue window,1035,defrecfile
+  end
+/* 37 & 38 play and playfile */
+if defplay='1' & defrecord='0' then
+  do
+    CALL VpSelect window,1052,1
+    CALL VpSetItemValue window,1053,defplayfile
+  end
+else
+  do
+    CALL VpSelect window,1052,0
+    CALL VpSetItemValue window,1053,defplayfile
+  end
+END

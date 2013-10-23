@@ -1,0 +1,36 @@
+/* Menu events - Check ~Samples */
+Arg window self
+
+/* remove the trailing "/" from the mamedir var because DIRECTORY doesn't like it */
+    mamedirlen=length(mamedir)  
+    chmamedir=left(mamedir,mamedirlen-1)
+
+/********** ROM check on all roms  ***********/
+samchk=inipath||'\samchk.txt'
+samchkbat=inipath||'\samchk.bat'
+listcall=mameprog||' * -verifysamples >'samchk
+gomamedir='cd '||chmamedir
+exitfile=inipath||'\xit.txt'
+xit='echo exit >'||exitfile
+exitcall=SYSSEARCHPATH('inipath', 'xit.txt')
+
+CALL LINEOUT samchkbat,mamedrive,1 
+CALL LINEOUT samchkbat,gomamedir 
+CALL LINEOUT samchkbat,listcall
+CALL LINEOUT samchkbat,xit
+rc=stream(samchkbat,'c','close')
+samchkrun='/C /F /WIN 'samchkbat
+/* run the batchfile to do Sample checking */
+Start samchkrun
+
+DO UNTIL LENGTH(exitcall) > 0
+  call SysSleep 1
+  exitcall=SYSSEARCHPATH('inipath', 'xit.txt')
+END
+rc=SysFileDelete(exitfile)
+CALL VpWindow window,'DISABLESTDIO'
+samchkepm='/F /PM e.exe '||samchk
+Start samchkepm
+CALL VpWindow window,'ENABLESTDIO'
+
+rc=SysFileDelete(samchkbat)

@@ -1,0 +1,4 @@
+/* Menu events - ~Error Log */
+Arg window self
+
+errorlog=

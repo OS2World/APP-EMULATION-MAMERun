@@ -1,0 +1,68 @@
+    MAMERun Copyright Jason Stefanovich 1999,2000
+    License:
+
+    The intent of this license is to grant you and others the maximum rights possible to the software covered by
+    it, while also minimizing the potential for compatibility issues. 
+    Section I: Definitions: 
+  
+    "Software" is the software that is covered by this license.  This includes source code, binary, and all other
+    files. 
+      
+    "Owner" is the Software's copyright owner. 
+  
+    "Program" is anything you create using this software, including standalone programs, operating systems,
+    and shared or static libraries. 
+      
+    "Unaltered Version" is an exact duplicate of the Software as provided by the Owner.  If you add to, delete,
+    or change any files in the Software package, or if you add files to the Software, it is no longer an Unaltered
+    Version. 
+  
+    "Altered Version" is either a copy of the Software's source code that has been modified by someone other
+    than the Owner, or the binary portion of a Program built with modified source code.  This includes a
+    modified copy of the Software built into a statically or dynamically linked library, unlinked object file, or
+    standalone application. 
+  
+    Section II: Scenarios and Requirements 
+  
+    Scenario: You want to distribute an Unaltered Copy of the Software. 
+    Requirements: None. 
+  
+    Scenario: You want to use an Unaltered Copy of the Software to create your Program. 
+    Requirements: None. 
+  
+    Scenario: You want to distribute an Altered Version of the Software. 
+    Requirements: 
+  
+    1. You must provide as part of your Program an Unaltered Copy of the Software or provide, as part of your
+    Program's documentation, a method for members of the general public to obtain an Unaltered Copy of the
+    Software for no more than a trivial cost.
+  
+    2. You must provide as part of your Program the modifications to the Software in the form of source code
+    patches, at most one patch file for any source code file, which can be applied to the Unaltered Version of
+    the Software mentioned in (1) to produce the source for the Altered Version.
+  
+    3. The patches mentioned in (2) must not rely on any tool or resource that isn't publicly available to anyone
+    developing for the hardware and software platform your Program or the Altered Version requires. 
+  
+    4. The source code to your modifications mentioned in (2) must be covered by this license. 
+  
+    5. You must grant the Owner a non-exclusive, royalty-free license to use, modify, and redistribute your
+    modifications in future Unaltered Versions of the Software and other projects, provided those projects are
+    covered by this or another widely recognized open source license. 
+  
+    6. Your modifications must not remove or alter the copyright notices, this license, or any other intellectual
+    property or ownership statements in the Software as distributed by the Owner.
+  
+    Section III: Limitations 
+  
+    The Software is provided "as is" and without any express or implied warranties, including, without limitation,
+    the implied warranties of merchantability and fitness for a particular purpose.   The Owner is not liable for
+    any damages or other costs incurred by you by using the Software. 
+  
+    You are granted the rights described in Section II provided you comply with all the requirements for each of
+    the applicable scenarios listed in that Section and the rest of this document.  If you cannot or are unwilling
+    to meet all the requirements for your desired use of the Software, then you are not granted a license to use
+    or distribute the Software, and you should contact the Owner t reach an agreement. 
+
+  
+

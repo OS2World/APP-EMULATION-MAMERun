@@ -1,0 +1,23 @@
+/* Form events - Opened */
+Arg window 
+
+/* center the window */
+xy=VpWindow(window,'GETSCREENSIZE')
+PARSE VAR xy x y
+xsizeysize=VpWindow(window,'GETSIZE')
+PARSE VAR xsizeysize xsize ysize
+movex=x/2-(xsize/2)
+movey=y/2-(ysize/2)
+CALL VpWindow window,'SETPOS', movex, movey, xsize, ysize
+
+
+
+
+/* Set item value 1002 Entry Field */
+CALL VpSetItemValue window,1002,mameprog
+
+/* Set item value 1004 Entry Field */
+CALL VpSetItemValue window,1004,altromdir
+
+/* Set item value 1008 Entry Field */
+CALL VpSetItemValue window,1008,extcmd

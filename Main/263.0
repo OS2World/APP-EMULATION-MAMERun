@@ -1,0 +1,149 @@
+/* Menu events - ~Save Custom Config */
+Arg window self
+
+/* Get item value 1041 Container */
+rom = VpGetItemValue(window,1041)
+/* index the container val against gamename */
+if length(rom) > 0 then
+  do
+    do i = 1 to gamedescrip.0
+      if rom=gamedescrip.i then
+        rom=gamename.i
+      end /* end do */
+  end
+
+romini=inipath||'\configs\'||rom||'.ini'
+
+
+
+
+custmameprog=mameprog
+custaltromdir=altromdir
+custextcmd=extcmd
+custblank=blank
+
+/* get the values of all the checkboxes */
+/* 1 Get item value 1000 Spin Button */
+custjoystick = VpGetItemValue(window,1000)
+/* 2 Get button state Mouse1003 Check Box */
+custmouse = VpIsSelected(window,1003)
+/* 3 Get item value 1004 Spin Button */
+custsoundcard = VpGetItemValue(window,1004)
+/* 4 Get item value 1010 Spin Button */
+    custsamplerate = VpGetItemValue(window,1010)
+/* 5 Get button state 16 bit sample1008 Check Box */
+    custsample16bit = VpIsSelected(window,1008)
+/* 6 Get button state Stereo1009 Check Box */
+    custstereo = VpIsSelected(window,1009)
+/* 7 Get button state OPL FM emulation1007 Check Box */
+    custopl = VpIsSelected(window,1007)
+/* 8 Get arm position 1043 Slider */
+    custvolume=VpGetItemValue(window, 1043, 'GETARMPOS')
+/* 9 Get button state Tweaked VGA1012 Check Box */
+custtweak = VpIsSelected(window,1012)
+/* 10 Get button state Stretch Vid1015 Check Box */
+custstretch = VpIsSelected(window,1015)
+/* 11 Get button state Vsync1020 Check Box */
+custvsync = VpIsSelected(window,1020)
+/* 12 Get button state Always Synced1021 Check Box */
+custalwaysync = VpIsSelected(window,1021)
+/* 13 Get button state Triple Buffering1022 Check Box */
+custtripbuff = VpIsSelected(window,1022)
+/* 14 Get button state Scanlines1014 Check Box */
+custscanlines = VpIsSelected(window,1014)
+/* 15 Get item value 1018 Spin Button */
+custvgafreq = VpGetItemValue(window,1018)
+/* 16 Get button state NTSC1013 Check Box */
+custntsc = VpIsSelected(window,1013)
+/* 17 Get item value 1016 Spin Button */
+custcoldpth = VpGetItemValue(window,1016)
+/* 18 Get item value 1023 Spin Button */
+custmonitor = VpGetItemValue(window,1023)
+/* 19 Get item value 1025 Spin Button */
+custrot = VpGetItemValue(window,1025)
+/* 20 Get button state Flip X1027 Check Box */
+custflipx = VpIsSelected(window,1027)
+/* 21 Get button state Flip Y1028 Check Box */
+custflipy = VpIsSelected(window,1028)
+/* 22 Get button state No Rotate1029 Check Box */
+custnorot = VpIsSelected(window,1029)
+/* 23 Get item value 1040 Spin Button */
+custframeskip = VpGetItemValue(window,1040)
+/* 24 Get button state Wait interlace1046 Check Box */
+custwaitint = VpIsSelected(window,1046)
+/* 25 Get button state Antialiasing1030 Check Box */
+custantiali = VpIsSelected(window,1030)
+/* 26 Get item value 1047 Spin Button */
+custbeam = VpGetItemValue(window,1047)
+/* 27 Get item value 1048 Spin Button */
+custflicker = VpGetItemValue(window,1048)
+/* 28 Get button state Translucency1051 Check Box */
+custtransluc = VpIsSelected(window,1051)
+/* 29 Get item value 1054 Spin Button */
+custresolution = VpGetItemValue(window,1054)
+/* 30 Get button state Windowed1056 Check Box */
+custwindowed = VpIsSelected(window,1056)
+/* 31 Get button state Create Error Log1031 Check Box */
+custerrlog = VpIsSelected(window,1031)
+/* 32 Get button state Debug1033 Check Box */
+custdebug = VpIsSelected(window,1033)
+/* 33 Get button state Cheats1032 Check Box */
+custcheat = VpIsSelected(window,1032)
+/* 34 Get button state Ignore Mame Config1037 Check Box */
+custigncfg = VpIsSelected(window,1037)
+/* 35 Get button state Record1034 Check Box */
+custrecord = VpIsSelected(window,1034)
+/* 36 Get item value 1035 Entry Field */
+custrecfile = VpGetItemValue(window,1035)
+/* 37 Get button state Play1052 Check Box */
+custplay = VpIsSelected(window,1052)
+/* 38 Get item value 1053 Entry Field */
+custplayfile = VpGetItemValue(window,1053)
+
+
+
+
+/* save to the ini file */
+CALL LINEOUT romini,custmameprog,1
+CALL LINEOUT romini,custaltromdir
+CALL LINEOUT romini,custextcmd
+CALL LINEOUT romini,custblank
+CALL LINEOUT romini,custjoystick          /* 1  */  
+CALL LINEOUT romini,custmouse	          /* 2  */
+CALL LINEOUT romini,custsoundcard         /* 3  */
+CALL LINEOUT romini,custsamplerate        /* 4  */
+CALL LINEOUT romini,custsample16bit       /* 5  */ 
+CALL LINEOUT romini,custstereo            /* 6  */
+CALL LINEOUT romini,custopl               /* 7  */
+CALL LINEOUT romini,custvolume            /* 8  */
+CALL LINEOUT romini,custtweak             /* 9  */
+CALL LINEOUT romini,custstretch           /* 10  */
+CALL LINEOUT romini,custvsync             /* 11  */
+CALL LINEOUT romini,custalwaysync         /* 12  */
+CALL LINEOUT romini,custtripbuff          /* 13  */
+CALL LINEOUT romini,custscanlines         /* 14  */
+CALL LINEOUT romini,custvgafreq           /* 15  */
+CALL LINEOUT romini,custntsc              /* 16  */
+CALL LINEOUT romini,custcoldpth           /* 17  */
+CALL LINEOUT romini,custmonitor           /* 18  */
+CALL LINEOUT romini,custrot               /* 19  */
+CALL LINEOUT romini,custflipx             /* 20  */
+CALL LINEOUT romini,custflipy             /* 21  */
+CALL LINEOUT romini,custnorot             /* 22  */
+CALL LINEOUT romini,custframeskip         /* 23  */
+CALL LINEOUT romini,custwaitint           /* 24  */
+CALL LINEOUT romini,custantiali           /* 25  */
+CALL LINEOUT romini,custbeam              /* 26  */
+CALL LINEOUT romini,custflicker           /* 27  */
+CALL LINEOUT romini,custtransluc          /* 28  */
+CALL LINEOUT romini,custresolution        /* 29  */
+CALL LINEOUT romini,custwindowed          /* 30  */
+CALL LINEOUT romini,custerrlog            /* 31  */
+CALL LINEOUT romini,custdebug             /* 32  */
+CALL LINEOUT romini,custcheat             /* 33  */
+CALL LINEOUT romini,custigncfg            /* 34  */
+CALL LINEOUT romini,custrecord            /* 35  */
+CALL LINEOUT romini,custrecfile           /* 36  */
+CALL LINEOUT romini,custplay              /* 37  */
+CALL LINEOUT romini,custplayfile          /* 38  */
+rc=stream(romini,'c','close')

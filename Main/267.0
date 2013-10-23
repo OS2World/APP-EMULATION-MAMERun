@@ -1,0 +1,5 @@
+/* Menu events - menu item */
+Arg window self
+
+/* Open the form C:\Desktop\MAMERun\About */
+value=VpOpenForm(window, 257, 'topic name')

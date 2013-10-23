@@ -1,0 +1,25 @@
+/* Form events - Opened */
+Arg window 
+
+/* center the window */
+xy=VpWindow(window,'GETSCREENSIZE')
+PARSE VAR xy x y
+xsizeysize=VpWindow(window,'GETSIZE')
+PARSE VAR xsizeysize xsize ysize
+movex=x/2-(xsize/2)
+movey=y/2-(ysize/2)
+CALL VpWindow window,'SETPOS', movex, movey, xsize, ysize
+
+/* load the mame picture */
+/* Load item from file #11045 Graphic */
+/* CALL VpLoadFromFile window,1045,'mamerun.bmp' */
+picture1000=VpLoadPicture('RESBMP',1000)
+picture640=VpLoadPicture('RESBMP',1001)
+/* Set item value #11045 Graphic */
+select 
+   when x<= 800
+      then
+        CALL VpSetItemValue window,1045,picture640
+   otherwise
+        CALL VpSetItemValue window,1045,picture1000
+end /* end select */

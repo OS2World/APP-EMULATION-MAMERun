@@ -1,0 +1,137 @@
+/* Menu events - ~Build Hotlist */
+Arg window self
+
+/*** list clones ***/
+response=VpMessageBox(window,'MAMERun - Hotlist','Include ROM Clones?','YESNO')
+
+
+
+IF LENGTH(mameprog) > 0 THEN
+DO
+
+/********** getting fullname for hotlist ***********/
+gamelist=inipath||'\listfull.txt'
+gamelstbat=inipath||'\gamelst.bat'
+if response='YES' then
+  listcall=mameprog||' -listfull >'gamelist
+else
+  listcall=mameprog||' -listfull -noclones >'gamelist
+listloc=SYSSEARCHPATH('inipath', '\listfull.txt')
+xitpath=inipath||'\'||exitfile
+xit='echo exit >'||xitpath
+
+    exitcall=STREAM(xitpath,'C','QUERY EXISTS')
+    CALL LINEOUT gamelstbat,listcall,1
+    CALL LINEOUT gamelstbat, xit
+    rc=stream(gamelstbat,'c','close')
+    gamelstrun='/C /MIN 'gamelstbat
+    Start gamelstrun
+    DO UNTIL LENGTH(exitcall) > 0
+      call SysSleep 1
+      exitcall=STREAM(xitpath,'C','QUERY EXISTS')
+    END
+    rc=SysFileDelete(exitfile)
+
+
+
+/* **** Build the initial hotlist **** */
+/* just cause i'm paranoid */
+a=a
+b=b
+/* set the container style */
+rc=vpsetitemstyle(window,1041,'TEXT')
+rc=vpsetitemstyle(window,1041,'SORTASCENDING')
+
+IF LENGTH(romdir) > 0 THEN
+   DO
+     rc=STREAM(romdir,'C','QUERY EXISTS')
+     a=rc
+   END
+
+IF LENGTH(altromdir) > 0 THEN
+   DO
+     rc=STREAM(altromdir,'C','QUERY EXISTS')
+     b=rc
+   END
+
+
+CALL vpdeleteitem window,1041,'ALL'
+IF LENGTH(a) = 0 | LENGTH(b) = 0 THEN
+   DO
+
+   /* load roms from the main rom dir */
+   IF LENGTH(a) = 0 THEN
+     DO  
+       call sysfiletree romfile,'file','FO'
+       do i=1 to file.0
+         files.i=filespec('name',file.i)
+         namelength=length(files.i)
+         gn=left(files.i,namelength-4)
+         gamename.i = translate(gn, xrange('a','z'), xrange('A', 'Z'))
+       end 
+       gamename.0=file.0
+       namecount=0
+       do i = 1 to gamename.0
+       call sysfilesearch gamename.i,gamelist,'gamel.'
+       if word(gamel.1,1)=gamename.i then
+         do
+           gd=substr(gamel.1,11)
+           parse var gd with '"' gdsc '"'
+           gamedescrip.i=gdsc
+           namecount=namecount+1
+         end /* end do */
+       else
+         do
+           gamedescrip.i=gamename.i
+           namecount=namecount+1
+         end
+       end
+       gamedescrip.0=namecount
+     END
+
+/* loads roms from alt rom dir */
+     IF LENGTH(b) = 0 THEN
+     DO  
+       call sysfiletree altromfile,'file','FO'
+       do i=1 to file.0
+         files.i=filespec('name',file.i)
+         namelength=length(files.i)
+         altgn=left(files.i,namelength-4)
+         altgamename.i = translate(altgn, xrange('a','z'), xrange('A', 'Z'))
+       end 
+       altgamename.0=file.0
+
+       /* namecount=0 */
+       
+       do i = 1 to altgamename.0
+       call sysfilesearch altgamename.i,gamelist,'altgamel.'
+       if word(altgamel.1,1)=altgamename.i then
+         do
+           altgd=substr(altgamel.1,11)
+           parse var altgd with '"' altgdsc '"'
+           altgamedescrip.i=altgdsc
+           namecount=namecount+1
+           gamedescrip.namecount=altgamedescrip.i||alt
+           gamename.namecount=altgamename.i
+         end /* end do */
+       else         
+         do
+           altgamedescrip.i=altgamename.i
+           namecount=namecount+1
+           gamedescrip.namecount=altgamedescrip.i||alt
+           gamename.namecount=altgamename.i           
+         end
+       end
+       gamedescrip.0=namecount
+    END
+  END
+iniexist=stream(iniloc,'C','QUERY EXISTS')
+END
+
+if length(mameprog)=0 then
+  do
+    /* asks for dirs */
+    response=VpMessageBox(window,'MAMERun','Please setup your configuration in the File..Config menu.')
+  end
+else
+   rc=vpadditem(window,1041,'LIST','gamedescrip.')

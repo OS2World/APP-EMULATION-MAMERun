@@ -1,0 +1,4 @@
+/* Event Clicked/selected - Cancel  1007 */
+Arg window self
+
+call vpwindow window,'DESTROY'

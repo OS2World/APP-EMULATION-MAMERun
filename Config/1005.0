@@ -1,0 +1,14 @@
+/* Event Clicked/selected - Find...  1005 */
+Arg window self
+
+dirsearch=1
+/* Open the form C:\Desktop\MAMERun!2\finddir */
+/* value=VpOpenForm(window, 259, 'topic name') */
+
+altromdir=VpFileDialog(window,'OPEN','*.zip','MAMERun/2 - Find')
+drive=filespec('drive',altromdir)
+path=filespec('path',altromdir)
+altromdir=drive||path
+call vpsetitemvalue window,1004,altromdir
+
+

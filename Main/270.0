@@ -1,0 +1,14 @@
+/* Menu events - ~Read Me */
+Arg window self
+
+
+readme=inipath||'\readme.txt'
+
+rc=stream(readme,'C','QUERY EXISTS')
+
+if (rc > 0) then
+  e rc
+else
+  response=VpMessageBox(window,'MAMERun - Read Me','Readme.txt does not exist.')
+
+

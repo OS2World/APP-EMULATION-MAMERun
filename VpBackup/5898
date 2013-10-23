@@ -1,0 +1,17 @@
+/* Event Clicked/selected - CHECK FOR UPDATE  1002 */
+Arg window self
+
+
+homepagecall1='netscape.exe -mail mailto:stefanj@gte.net'
+netprog1='c:\netscape\program\netscape.exe'
+netprog2='c:\netscape\netscape.exe'
+net1exist=stream(netprog1,'C','QUERY EXISTS')
+net2exist=stream(netprog2,'C','QUERY EXISTS')
+
+if LENGTH(net1exist) > 0 | LENGTH(net2exist) > 0
+  then
+    START homepagecall1
+  else
+    response=VpMessageBox(window,'MAMERun - Mail','No known mailer.  Please mail me at stefanj@gte.net')
+
+

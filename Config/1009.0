@@ -1,0 +1,9 @@
+/* Event Clicked/selected - Find...  1009 */
+Arg window self
+
+dirsearch=2
+/* Open the form C:\Desktop\MAMERun!2\finddir */
+/* value=VpOpenForm(window, 259, 'topic name') */
+
+extcmd=VpFileDialog(window,'OPEN','*.*','MAMERun/2 - Find')
+call vpsetitemvalue window,1008,extcmd

@@ -1,0 +1,15 @@
+/* Form events - Secondary Close */
+Arg window fromtopic
+
+
+
+IF dirsearch = 0 THEN
+   DO
+   call vpsetitemvalue window,1002,mamedir
+   END
+ELSE
+   DO
+   call vpsetitemvalue window,1004,altromdir
+   END
+
+

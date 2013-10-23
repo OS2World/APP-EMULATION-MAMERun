@@ -1,0 +1,896 @@
+/* Form events - Opened */
+Arg window
+
+/* load rexxutil functions */
+call RxFuncAdd 'SysLoadFuncs', 'RexxUtil', 'SysLoadFuncs'
+call SysLoadFuncs
+
+ver=SysOS2Ver()
+
+
+/* center the window */
+xy=VpWindow(window,'GETSCREENSIZE')
+PARSE VAR xy x y
+xsizeysize=VpWindow(window,'GETSIZE')
+PARSE VAR xsizeysize xsize ysize
+movex=x/2-(xsize/2)
+movey=y/2-(ysize/2)
+CALL VpWindow window,'SETPOS', movex, movey, xsize, ysize
+
+
+/* load the mame picture */
+/* Set item value #1045 Graphic */
+/* find the size of the screen and select the right bitmap */
+select 
+   when x<= 800
+      then
+        do
+          picture640=VpLoadPicture('RESBMP',1001)
+          CALL VpSetItemValue window,1045,picture640
+        end
+   otherwise
+        do
+          CALL VpSetItemValue window,1045,picture1000
+          picture1000=VpLoadPicture('RESBMP',1000)
+        end
+end /* end select */
+
+
+/* init vars */
+savesettings=0
+inisize=0
+changed=0
+mamedrive=''
+mamepath=''
+mamedir=''
+mameprog=''
+romdir=''
+altromdir=''
+path=''
+inipath=''
+iniloc=''
+extcmd=''
+namecount=0
+blank=''
+joystick=''
+mouse=''
+soundcard=''
+samplerate=''
+sample16bit=''
+stereo=''
+opl=''
+volume=''
+tweak=''
+stretch=''
+vsync=''
+alwaysync=''
+tripbuff=''
+scanlines=''
+vgafreq=''
+ntsc=''
+coldpth=''
+monitor=''
+rot=''
+flipx=''
+flipy=''
+norot=''
+frameskip=''
+waitint=''
+antiali=''
+beam=''
+flicker=''
+transluc=''
+resolution=''
+windowed=''
+errlog=''
+debug=''
+cheat=''
+igncfg=''
+record=''
+recfile=''
+play=''
+playfile=''
+exitfile='xit.txt'
+waitcounter=0
+alt=' [alt]'
+
+
+/* joysticks */
+j0='none'
+j1='auto'
+j2='standard'
+j3='dual'
+j4='4button'
+j5='6button'
+j6='8button'
+j7='fspro'
+j8='wingx'
+j9='wingwarrior'
+j10='sidewinder'
+j11='gamepadpro'
+j12='grip'
+j13='grip4'
+j14='sneslpt1'
+j15='psxlpt1'
+j16='n64lpt1'
+
+/* soundcards */
+s0='silence'
+s1='SoundBlaster'
+s2='SBlasterPro'
+s3='ProAudioSpec'
+s4='UltraSoundMax'
+s5='UltraSound'
+s6='WinSoundSys'
+s7='Ensoniq'
+
+/* sound sample rates */
+sr0='22050'
+sr1='11025'
+sr2='44100'
+
+/* color depth */
+cd0='16'
+cd1='8'
+cd2='24'
+cd3='32'
+
+/* vga monitor freq */
+frq0='0'
+frq1='1'
+frq2='2'
+frq3='3'
+
+/* monitor type */
+mon0='standard'
+mon1='ntsc'
+mon2='pal'
+mon3='arcade'
+
+/* display rotate */
+rd0='none'
+rd1='right'
+rd2='left'	
+
+/* frameskip */
+skp0='auto'
+skp1='1'
+skp2='2'
+skp3='3'
+skp4='4'
+skp5='5'
+skp6='6'
+skp7='7'
+skp8='8'
+skp9='9'
+skp10='10'
+skp11='11'
+
+/* Beam Width */
+do i = 1 to 16
+  beam.i=i
+end
+beam.0=16
+
+/* Flicker */
+do i = 1 to 100
+  flicker.i=(i-1)
+end
+flicker.0=100
+
+/* Resolution */
+res0='auto'
+res1='320x240'
+res2='320x400'
+res3='320x480'
+res4='400x300'
+res5='480x360'
+res6='512x384'
+res7='640x400'
+res8='640x480'
+res9='800x600'
+res10='1024x768'
+res11='1152x864'
+res12='1280x960'
+res13='1280x1024'
+res14='1600x1200'
+
+
+
+/* fill the spin boxes */
+joylist=vpadditem(window,1000,'END',j0,j1,j2,j3,j4,j5,j6,j7,j8,j9,j10,j11,j12,j13,j14,j15,j16)
+soundlist=vpadditem(window,1004,'END',s0,s1,s2,s3,s4,s5,s6,s7)
+samplelist=vpadditem(window,1010,'END',sr0,sr1,sr2)
+colorlist=vpadditem(window,1016,'END',cd0,cd1,cd2,cd3)
+frqlist=vpadditem(window,1018,'END',frq0,frq1,frq2,frq3)
+monlist=vpadditem(window,1023,'END',mon0,mon1,mon2,mon3)
+rotlist=vpadditem(window,1025,'END',rd0,rd1,rd2)
+index=VpAddItem(window, 1040, 'END',skp0,skp1,skp2,skp3,skp4,skp5,skp6,skp7,skp8,skp9,skp10,skp11)
+beamlist=VpAddItem(window, 1047, 'LIST','beam.')
+flickerlist=VpAddItem(window, 1048,'LIST','flicker.')
+reslist=VpAdditem(window, 1054,'END',res0,res1,res2,res3,res4,res5,res6,res7,res8,res9,res10,res11,res12,res13,res14)
+
+/* set default config for boxes */
+/* Check the item  Scanlines1014 Check Box */
+CALL VpSelect window,1014,1
+/* Check the item  Stretch Vid1015 Check Box */
+CALL VpSelect window,1015,1
+/* Check the item  Antialiasing1030 Check Box */
+CALL VpSelect window,1030,1
+/* Check the item  Stereo1009 Check Box */
+CALL VpSelect window,1009,1
+/* Check the item  Mouse1003 Check Box */
+CALL VpSelect window,1003,1
+/* Set arm position 1043 Slider */
+CALL VpSetItemValue window, 1043, 'SETARMPOS', 21
+/* Check the item  Translucency1051 Check Box */
+CALL VpSelect window,1051,1
+
+
+/* sets the path variable to the current dir */
+path=directory()
+/* sets the ini path to the current dir */
+inipath=path
+
+/* checks for the ini file and reads in the data */
+iniloc=SYSSEARCHPATH('inipath', 'mamerun.ini')
+
+  IF LENGTH(iniloc) > 0
+    THEN
+      DO
+        mameprog=LINEIN(iniloc,1,1)
+        altromdir=LINEIN(iniloc)
+        extcmd=LINEIN(iniloc)
+        blank=LINEIN(iniloc)
+        joystick=LINEIN(iniloc)          /* 1  */  
+        mouse=LINEIN(iniloc)	         /* 2  */
+        soundcard=LINEIN(iniloc)	 /* 3  */
+        samplerate=LINEIN(iniloc)        /* 4  */
+        sample16bit=LINEIN(iniloc)       /* 5  */ 
+        stereo=LINEIN(iniloc)            /* 6  */
+        opl=LINEIN(iniloc)               /* 7  */
+        volume=LINEIN(iniloc)            /* 8  */
+	tweak=LINEIN(iniloc)             /* 9  */
+        stretch=LINEIN(iniloc)           /* 10  */
+        vsync=LINEIN(iniloc)             /* 11  */
+        alwaysync=LINEIN(iniloc)         /* 12  */
+        tripbuff=LINEIN(iniloc)          /* 13  */
+        scanlines=LINEIN(iniloc)         /* 14  */
+        vgafreq=LINEIN(iniloc)           /* 15  */
+        ntsc=LINEIN(iniloc)              /* 16  */
+        coldpth=LINEIN(iniloc)           /* 17  */
+        monitor=LINEIN(iniloc)           /* 18  */
+        rot=LINEIN(iniloc)               /* 19  */
+        flipx=LINEIN(iniloc)             /* 20  */
+        flipy=LINEIN(iniloc)             /* 21  */
+        norot=LINEIN(iniloc)             /* 22  */
+        frameskip=LINEIN(iniloc)         /* 23  */
+        waitint=LINEIN(iniloc)           /* 24  */
+        antiali=LINEIN(iniloc)           /* 25  */
+        beam=LINEIN(iniloc)              /* 26  */
+        flicker=LINEIN(iniloc)           /* 27  */
+        transluc=LINEIN(iniloc)          /* 28  */
+        resolution=LINEIN(iniloc)        /* 29  */
+        windowed=LINEIN(iniloc)          /* 30  */
+        errlog=LINEIN(iniloc)            /* 31  */
+        debug=LINEIN(iniloc)             /* 32  */
+        cheat=LINEIN(iniloc)             /* 33  */
+        igncfg=LINEIN(iniloc)            /* 34  */
+        record=LINEIN(iniloc)            /* 35  */
+        recfile=LINEIN(iniloc)           /* 36  */
+        play=LINEIN(iniloc)              /* 37  */
+        playfile=LINEIN(iniloc)          /* 38  */
+        rc=stream(iniloc,'C','CLOSE')
+      END
+
+/* if no ini, make a new ini file, not done yet  */
+   ELSE
+      DO
+        filename=SYSSEARCHPATH('PATH''DPATH', 'mamerun.exe')
+        inidrive=filespec('drive',filename)
+        inipth=filespec('path',filename)
+        inipath=inidrive||inipth
+        iniloc=inipath || 'mamerun.ini'
+/**        CALL LINEOUT iniloc,mameprog,1 
+        rc=stream(iniloc,'C','CLOSE') **/
+      END       
+
+/* get the number of lines in the inifile */
+do until lines(iniloc)=0
+  x=LINEIN(iniloc)
+  inisize=inisize+1
+end /* end do */
+rc=stream(iniloc,'C','CLOSE')
+
+
+IF LENGTH(mameprog) > 0 THEN
+  DO
+    mamedrive=filespec('drive',mameprog)
+    mamepath=filespec('path',mameprog)
+    mamedir=mamedrive||mamepath
+    romdir=mamedir||'roms\'
+    romfile=romdir||'*.zip'
+    altromdrive=filespec('drive',altromdir)
+    altromfile=altromdir||'*.zip'
+  END
+
+/* set the defaults, these will be static  */
+defmameprog=mameprog
+defaltromdir=altromdir
+defextcmd=extcmd
+defblank=blank
+defjoystick=joystick
+defmouse=mouse
+defsoundcard=soundcard
+defsamplerate=samplerate
+defsample16bit=sample16bit
+defstereo=stereo
+defopl=opl
+defvolume=volume
+deftweak=tweak
+defstretch=stretch
+defvsync=vsync
+defalwaysync=alwaysync
+deftripbuff=tripbuff
+defscanlines=scanlines
+defvgafreq=vgafreq
+defntsc=ntsc
+defcoldpth=coldpth
+defmonitor=monitor
+defrot=rot
+defflipx=flipx
+defflipy=flipy
+defnorot=norot
+defframeskip=frameskip
+defwaitint=waitint
+defantiali=antiali
+defbeam=beam
+defflicker=flicker
+deftransluc=transluc
+defresolution=resolution
+defwindowed=windowed
+deferrlog=errlog
+defdebug=debug
+defcheat=cheat
+defigncfg=igncfg
+defrecord=record
+defrecfile=recfile
+defplay=play
+defplayfile=playfile
+
+
+
+/* configure all the settings from the ini file */
+iniexist=stream(iniloc,'C','QUERY EXISTS')
+IF length(iniexist) > 0 THEN
+DO
+/* 1  joystick  */
+select 
+   when joystick='none'
+      then
+        CALL VpSetItemValue window,1000,0
+   when joystick='auto'
+      then
+        CALL VpSetItemValue window,1000,1
+   when joystick='standard'
+      then
+        CALL VpSetItemValue window,1000,2
+   when joystick='dual'
+      then
+        CALL VpSetItemValue window,1000,3
+   when joystick='4button'
+      then
+        CALL VpSetItemValue window,1000,4
+   when joystick='6button'
+      then
+        CALL VpSetItemValue window,1000,5
+   when joystick='8button'
+      then
+        CALL VpSetItemValue window,1000,6
+   when joystick='fspro'
+      then
+        CALL VpSetItemValue window,1000,7
+   when joystick='wingx'
+      then
+        CALL VpSetItemValue window,1000,8
+   when joystick='wingwarrior'
+      then
+        CALL VpSetItemValue window,1000,9
+   when joystick='sidewinder'
+      then
+        CALL VpSetItemValue window,1000,10
+   when joystick='gamepadpro'
+      then
+        CALL VpSetItemValue window,1000,11
+   when joystick='grip'
+      then
+        CALL VpSetItemValue window,1000,12
+   when joystick='grip4'
+      then
+        CALL VpSetItemValue window,1000,13
+   when joystick='sneslpt1'
+      then
+        CALL VpSetItemValue window,1000,14
+   when joystick='psxlpt1'
+      then
+        CALL VpSetItemValue window,1000,15
+   when joystick='n64lpt1'
+      then
+        CALL VpSetItemValue window,1000,16
+   otherwise
+        CALL VpSetItemValue window,1000,0
+end /* end select */
+/* 2 mouse */
+if mouse='1' then
+  CALL VpSelect window,1003,1
+else
+  CALL VpSelect window,1003,0
+/* 3 soundcard */
+select 
+   when soundcard='silence'
+      then
+        CALL VpSetItemValue window,1004,0
+   when soundcard='SoundBlaster'
+      then
+        CALL VpSetItemValue window,1004,1
+   when soundcard='SBlasterPro'
+      then
+        CALL VpSetItemValue window,1004,2
+   when soundcard='ProAudioSpec'
+      then
+        CALL VpSetItemValue window,1004,3
+   when soundcard='UltraSoundMax'
+      then
+        CALL VpSetItemValue window,1004,4
+   when soundcard='UltraSound'
+      then
+        CALL VpSetItemValue window,1004,5
+   when soundcard='WinSoundSys'
+      then
+        CALL VpSetItemValue window,1004,6
+   when soundcard='Ensoniq'
+      then
+        CALL VpSetItemValue window,1004,7
+   otherwise
+        CALL VpSetItemValue window,1004,0
+end /* end select */
+/* 4 samplerate */
+select 
+   when samplerate='22050'
+     then
+       CALL VpSetItemValue window,1010,0
+   when samplerate='11025'
+     then
+       CALL VpSetItemValue window,1010,1
+   when samplerate='44100'
+     then
+       CALL VpSetItemValue window,1010,2     
+   otherwise
+       CALL VpSetItemValue window,1010,0
+end /* end select */
+/* 5 sample16bit */
+if sample16bit='1' then
+  CALL VpSelect window,1008,1
+else
+  CALL VpSelect window,1008,0
+/* 6 stereo */
+if stereo='1' then
+  CALL VpSelect window,1009,1
+else
+  CALL VpSelect window,1009,0
+/* 7 opl */
+if opl='1' then
+  CALL VpSelect window,1007,1
+else
+  CALL VpSelect window,1007,0
+/* 8 volume */
+CALL VpSetItemValue window, 1043, 'SETARMPOS', volume
+/* 9 tweak */
+if tweak='1' then
+  CALL VpSelect window,1012,1
+else
+  CALL VpSelect window,1012,0
+/* 10 stretch */
+if stretch='1' then
+  CALL VpSelect window,1015,1
+else
+  CALL VpSelect window,1015,0
+/* 11 vsync */
+if vsync='1' then
+  CALL VpSelect window,1020,1
+else
+  CALL VpSelect window,1020,0
+/* 12 alwaysync */
+if alwaysync='1' then
+  CALL VpSelect window,1021,1
+else
+  CALL VpSelect window,1021,0
+/* 13 tripbuff */
+if tripbuff='1' then
+  CALL VpSelect window,1022,1
+else
+  CALL VpSelect window,1022,0
+/* 14 scanlines */
+if scanlines='1' then
+  CALL VpSelect window,1014,1
+else
+  CALL VpSelect window,1014,0
+/* 15 vgafreq */
+select 
+   when vgafreq='0'
+      then
+        CALL VpSetItemValue window,1018,0
+   when vgafreq='1'
+      then
+        CALL VpSetItemValue window,1018,1
+   when vgafreq='2'
+      then
+        CALL VpSetItemValue window,1018,2
+   when vgafreq='3'
+      then
+        CALL VpSetItemValue window,1018,3
+   otherwise
+        CALL VpSetItemValue window,1018,0
+end /* end select */
+/* 16 ntsc */
+if ntsc='1' then
+  CALL VpSelect window,1013,1
+else
+  CALL VpSelect window,1013,0
+/* 17 coldpth */
+select 
+   when coldpth='16'
+      then
+        CALL VpSetItemValue window,1016,0
+   when coldpth='8'
+      then
+        CALL VpSetItemValue window,1016,1
+   when coldpth='24'
+      then
+        CALL VpSetItemValue window,1016,2
+   when coldpth='32'
+      then
+        CALL VpSetItemValue window,1016,3
+   otherwise
+        CALL VpSetItemValue window,1016,0
+end /* end select */
+/* 18 monitor */
+select 
+   when monitor='standard'
+      then
+        CALL VpSetItemValue window,1023,0
+   when monitor='ntsc'
+      then
+        CALL VpSetItemValue window,1023,1
+   when monitor='pal'
+      then
+        CALL VpSetItemValue window,1023,2
+   when monitor='arcade'
+      then
+        CALL VpSetItemValue window,1023,3
+   otherwise
+        CALL VpSetItemValue window,1023,0
+end /* end select */
+/* 19 rot */
+select 
+   when rot='none'
+      then
+        CALL VpSetItemValue window,1025,0
+   when rot='right'
+      then
+        CALL VpSetItemValue window,1025,1
+   when rot='left'
+      then
+        CALL VpSetItemValue window,1025,2
+   otherwise
+        CALL VpSetItemValue window,1025,0
+end /* end select */
+/* 20 flipx */
+if flipx='1' then
+  CALL VpSelect window,1027,1
+else
+  CALL VpSelect window,1027,0
+/* 21 flipy */
+if flipy='1' then
+  CALL VpSelect window,1028,1
+else
+  CALL VpSelect window,1028,0
+/* 22 norot */
+if norot='1' then
+  CALL VpSelect window,1029,1
+else
+  CALL VpSelect window,1029,0
+/* 23 frameskip */
+if frameskip='auto' then
+  CALL VpSetItemValue window,1040,0
+else
+  do
+    if length(frameskip) > 0 then
+      CALL VpSetItemValue window,1040,frameskip
+    else
+      CALL VpSetItemValue window,1040,0
+  end
+/* 24 wait interlace */
+if waitint=1 then
+  CALL VpSelect window,1046,1
+else
+  CALL VpSelect window,1046,0
+/* 25 antiali */
+if antiali='1' then
+  CALL VpSelect window,1030,1
+else
+  CALL VpSelect window,1030,0
+/* 26 beam */
+if beam > 1 then
+  CALL VpSetItemValue window,1047,(beam-1)
+else
+  CALL VpSetItemValue window,1047,0
+/* 27 flicker */
+if flicker = 0 then
+  CALL VpSetItemValue window,1048,0
+else
+  CALL VpSetItemValue window,1048,flicker
+/* 28 translucency */
+if transluc=1 then
+  CALL VpSelect window,1051,1
+else
+  CALL VpSelect window,1051,0
+/* 29 resolution */
+select 
+  when resolution='auto'
+    then
+      CALL VpSetItemValue window,1054,0
+  when resolution='320x240'
+    then
+      CALL VpSetItemValue window,1054,1
+  when resolution='320x400'
+    then
+      CALL VpSetItemValue window,1054,2
+  when resolution='320x480'
+    then
+      CALL VpSetItemValue window,1054,3
+  when resolution='400x300'
+    then
+      CALL VpSetItemValue window,1054,4
+  when resolution='480x360'
+    then
+      CALL VpSetItemValue window,1054,5
+  when resolution='512x384'
+    then
+      CALL VpSetItemValue window,1054,6
+  when resolution='640x400'
+    then
+      CALL VpSetItemValue window,1054,7
+  when resolution='640x480'
+    then
+      CALL VpSetItemValue window,1054,8
+  when resolution='800x600'
+    then
+      CALL VpSetItemValue window,1054,9
+  when resolution='1024x768'
+    then
+      CALL VpSetItemValue window,1054,10
+  when resolution='1152x864'
+    then
+      CALL VpSetItemValue window,1054,11
+  when resolution='1280x960'
+    then
+      CALL VpSetItemValue window,1054,12
+  when resolution='1280x1024'
+    then
+      CALL VpSetItemValue window,1054,13
+  when resolution='1600x1200'
+    then
+      CALL VpSetItemValue window,1054,14
+  otherwise
+     CALL VpSetItemValue window,1054,0 
+end /* end select */
+/* 30 windowed */
+if windowed=1 then
+  CALL VpSelect window,1056,1
+else
+  CALL VpSelect window,1056,0
+/* 31 errlog */
+if errlog='1' then
+  CALL VpSelect window,1031,1
+else
+  CALL VpSelect window,1031,0
+/* 32 debug */
+if debug='1' then
+  CALL VpSelect window,1033,1
+else
+  CALL VpSelect window,1033,0
+/* 33 cheat */
+if cheat='1' then
+  CALL VpSelect window,1032,1
+else
+  CALL VpSelect window,1032,0
+/* 34 igncfg */
+if igncfg='1' then
+  CALL VpSelect window,1037,1
+else
+  CALL VpSelect window,1037,0
+/* 35 & 36 record & recfile */
+if record='1' then
+  do
+    CALL VpSelect window,1034,1
+    CALL VpSetItemValue window,1035,recfile
+  end 
+else
+  do
+    CALL VpSelect window,1034,0
+    CALL VpSetItemValue window,1035,recfile
+  end
+/* 37 & 38 play and playfile */
+if play='1' & record='0' then
+  do
+    CALL VpSelect window,1052,1
+    CALL VpSetItemValue window,1053,playfile
+  end
+else
+  do
+    CALL VpSelect window,1052,0
+    CALL VpSetItemValue window,1053,playfile
+  end
+  
+/* make sure the config for startd exists, if not create it */
+cfgloc=SYSSEARCHPATH('inipath', 'mamerun.cfg')
+IF LENGTH(cfgloc) = 0
+    THEN
+      DO
+/* save to the cfg file */
+CALL LINEOUT cfgloc,'DOS_FILES=40',1
+CALL LINEOUT cfgloc,DPMI_DOS_API=ENABLED
+CALL LINEOUT cfgloc,DPMI_MEMORY_LIMIT=64
+CALL LINEOUT cfgloc,GAME_DIGITAL_RESPONSE=ON
+CALL LINEOUT cfgloc,GAME_DIRECT_ACCESS=OFF
+CALL LINEOUT cfgloc,HW_ROM_TO_RAM=ON
+CALL LINEOUT cfgloc,HW_TIMER=ON
+CALL LINEOUT cfgloc,IDLE_SECONDS=60
+CALL LINEOUT cfgloc,IDLE_SENSITIVITY=100
+CALL LINEOUT cfgloc,stereo            /* 6  */
+CALL LINEOUT cfgloc,opl               /* 7  */
+CALL LINEOUT cfgloc,volume            /* 8  */
+CALL LINEOUT cfgloc,tweak             /* 9  */
+CALL LINEOUT cfgloc,stretch           /* 10  */
+CALL LINEOUT cfgloc,vsync             /* 11  */
+CALL LINEOUT cfgloc,alwaysync         /* 12  */
+CALL LINEOUT cfgloc,tripbuff          /* 13  */
+CALL LINEOUT cfgloc,scanlines         /* 14  */
+CALL LINEOUT cfgloc,vgafreq           /* 15  */
+CALL LINEOUT cfgloc,ntsc              /* 16  */
+rc=stream(cfgloc,'c','close')
+
+
+        
+
+
+
+
+
+/********** getting fullname for hotlist ***********/
+gamelist=inipath||'\listfull.txt'
+gamelstbat=inipath||'\gamelst.bat'
+listcall=mameprog||' -listfull >'gamelist
+listloc=SYSSEARCHPATH('inipath', '\listfull.txt')
+xitpath=inipath||'\'||exitfile
+xit='echo exit >'||xitpath
+if listloc='' then
+  do
+    xitpath=inipath||'\'||exitfile
+    xit='echo exit >'||xitpath
+    exitcall=STREAM(xitpath,'C','QUERY EXISTS')
+    CALL LINEOUT gamelstbat,listcall,1
+    CALL LINEOUT gamelstbat, xit
+    rc=stream(gamelstbat,'c','close')
+    gamelstrun='/C /MIN 'gamelstbat
+    Start gamelstrun
+    DO UNTIL LENGTH(exitcall) > 0
+      call SysSleep 1
+      exitcall=STREAM(xitpath,'C','QUERY EXISTS')
+    END
+    rc=SysFileDelete(exitfile)
+  end
+
+
+/* **** Build the initial hotlist **** */
+/* just cause i'm paranoid */
+a=a
+b=b
+/* set the container style */
+rc=vpsetitemstyle(window,1041,'TEXT')
+rc=vpsetitemstyle(window,1041,'SORTASCENDING')
+
+IF LENGTH(romdir) > 0 THEN
+   DO
+     rc=STREAM(romdir,'C','QUERY EXISTS')
+     a=rc
+   END
+
+IF LENGTH(altromdir) > 0 THEN
+   DO
+     rc=STREAM(altromdir,'C','QUERY EXISTS')
+     b=rc
+   END
+
+
+CALL vpdeleteitem window,1041,'ALL'
+IF LENGTH(a) = 0 | LENGTH(b) = 0 THEN
+   DO
+
+   /* load roms from the main rom dir */
+   IF LENGTH(a) = 0 THEN
+     DO  
+       call sysfiletree romfile,'file','FO'
+       do i=1 to file.0
+         files.i=filespec('name',file.i)
+         namelength=length(files.i)
+         gn=left(files.i,namelength-4)
+         gamename.i = translate(gn, xrange('a','z'), xrange('A', 'Z'))
+       end 
+       gamename.0=file.0
+       namecount=0
+       do i = 1 to gamename.0
+       call sysfilesearch gamename.i,gamelist,'gamel.'
+       if word(gamel.1,1)=gamename.i then
+         do
+           gd=substr(gamel.1,11)
+           parse var gd with '"' gdsc '"'
+           gamedescrip.i=gdsc
+           namecount=namecount+1
+         end /* end do */
+       else
+         do
+           gamedescrip.i=gamename.i
+           namecount=namecount+1
+         end
+       end
+       gamedescrip.0=namecount
+     END
+
+/* loads roms from alt rom dir */
+     IF LENGTH(b) = 0 THEN
+     DO  
+       call sysfiletree altromfile,'file','FO'
+       do i=1 to file.0
+         files.i=filespec('name',file.i)
+         namelength=length(files.i)
+         altgn=left(files.i,namelength-4)
+         altgamename.i = translate(altgn, xrange('a','z'), xrange('A', 'Z'))
+       end 
+       altgamename.0=file.0
+
+       /* namecount=0 */
+       
+       do i = 1 to altgamename.0
+       call sysfilesearch altgamename.i,gamelist,'altgamel.'
+       if word(altgamel.1,1)=altgamename.i then
+         do
+           altgd=substr(altgamel.1,11)
+           parse var altgd with '"' altgdsc '"'
+           altgamedescrip.i=altgdsc
+           namecount=namecount+1         
+           gamedescrip.namecount=altgamedescrip.i||alt
+           gamename.namecount=altgamename.i
+         end /* end do */
+       else         
+         do
+           altgamedescrip.i=altgamename.i
+           namecount=namecount+1           
+           gamedescrip.namecount=altgamedescrip.i||alt
+           gamename.namecount=altgamename.i
+         end
+       end
+       gamedescrip.0=namecount
+    END
+  END
+END
+if length(mameprog)=0 then
+  do
+    /* asks for dirs */
+    response=VpMessageBox(window,'MAMERun','Please setup your configuration in the File..Config menu.')
+  end
+else
+   rc=vpadditem(window,1041,'LIST','gamedescrip.')
+   
+

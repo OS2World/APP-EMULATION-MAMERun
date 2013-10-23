@@ -1,0 +1,228 @@
+romset npacmod [pacman] is bad
+romset mspacman is good
+romset mspacatk [mspacman] is good
+romset superg [galaxian] is bad
+romset stratgyx is good
+romset frogger is good
+romset yamato is good
+romset dangar is good
+romset galaga is good
+romset galaga84 [galaga] is good
+romset digdugat [digdug] is bad
+romset pacnpal is good
+romset digdug2 is good
+romset rthunder is good
+romset rthundro [rthunder] is good
+romset blazer is good
+romset pacmania is bad
+romset galaga88 is good
+romset galag88j [galaga88] is good
+romset splatter is good
+romset dangseed is good
+romset assault is good
+romset assaultj [assault] is good
+romset assaultp [assault] is good
+romset mirninja is good
+romset burnforc is good
+romset dsaber is good
+romset rthun2 is good
+romset invaders is good
+romset tron is good
+romset tron2 [tron] is good
+romset sarge is good
+romset rampage is good
+romset spyhunt is good
+romset xenophob is good
+romset ldrun is good
+romset kidniki is good
+romset rtype is good
+romset rtypeu [rtype] is good
+romset rtype2 is bad
+romset rtype2j [rtype2] is bad
+romset mysticri is good
+romset qbert is good
+romset qix2 [qix] is good
+romset lkage is good
+romset bublbobl is good
+romset boblbobl [bublbobl] is good
+romset sboblbob [bublbobl] is good
+romset rastan is good
+romset rainbowe [rainbow] is good
+romset arkanoid is good
+romset arkanoi2 is good
+romset ark2us [arkanoi2] is good
+romset runark [growl] is bad
+romset tigerh is good
+romset tigerhb2 [tigerh] is good
+romset twincobr is bad
+romset flashgal is good
+romset defender is good
+romset joustr [joust] is bad
+romset sinistar is good
+romset 1942 is good
+romset gngt [gng] is bad
+romset sidearms is good
+romset sidearmr [sidearms] is good
+romset sidearjp [sidearms] is good
+romset avengers is good
+romset avenger2 [avengers] is good
+romset bionicc is good
+romset 1943 is good
+romset blktiger is good
+romset strider is good
+romset dwj is good
+romset unsquad is good
+romset msword is good
+romset cawing is good
+romset knights is good
+romset sf2ce is good
+romset varth is good
+romset pang3 is good
+romset sfzch is good
+romset pang is good
+romset spang is good
+romset heiankyo is good
+romset elim2a [elim2] is bad
+romset flicky is good
+romset flicky2 [flicky] is good
+romset hvymetal is good
+romset 4dwarrio is good
+romset tokisens is good
+romset alexkidd is good
+romset auraila [aurail] is good
+romset aurail is good
+romset goldnaxe is good
+romset goldnaxa [goldnaxe] is good
+romset outrunb [outrun] is bad
+romset riotcity is good
+romset shangonb [shangon] is bad
+romset shinobi is good
+romset wb3bl [wb3] is good
+romset wrestwar is good
+romset btimem [btime] is bad
+romset pcktgal is good
+romset hbarrel is good
+romset hbarrelw [hbarrel] is good
+romset darksea1 [darkseal] is bad
+romset cninja is good
+romset starforc is good
+romset starfore [starforc] is good
+romset megaforc [starforc] is good
+romset rygar is good
+romset rygar2 [rygar] is good
+romset rygarj [rygar] is good
+romset gaiden is good
+romset gyrussce [gyruss] is good
+romset tp84 is good
+romset tp84a [tp84] is good
+romset yiear is bad
+romset yiear2 [yiear] is bad
+romset jackal is good
+romset topgunr [jackal] is good
+romset aliens2 [aliens] is bad
+romset aliensj [aliens] is bad
+romset simpsn2p [simpsons] is bad
+romset gwarrior is good
+romset vulcan is good
+romset gradius2 [vulcan] is good
+romset lgtnfght is good
+romset xmen is good
+romset xmen6p [xmen] is good
+romset astdelux is good
+romset bzone is good
+romset tempest is good
+romset tempest1 [tempest] is good
+romset tempest2 [tempest] is good
+romset temptube [tempest] is good
+romset starwars is good
+romset esb is good
+romset jedi is good
+romset marble is bad
+romset marble2 [marble] is bad
+romset marblea [marble] is bad
+romset roadblst is good
+romset 720 is good
+romset 720b [720] is good
+romset apb is good
+romset gauntlet is good
+romset gauntir2 [gauntlet] is good
+romset gaunt2p [gauntlet] is good
+romset gaunt2 is good
+romset xybots is good
+romset eprom is good
+romset thunderj is good
+romset vangrdce [vanguard] is bad
+romset searchar is bad
+romset sercharu [searchar] is good
+romset gensitou [prehisle] is good
+romset timesold is good
+romset xsleenab [xsleena] is bad
+romset ddragon is best available
+romset narc is good
+romset smashtv is good
+romset term2 is good
+romset raiden is good
+romset ginganin is good
+romset p47 is good
+romset peekaboo is good
+romset aerofgt is good
+romset pong is good
+romset ddayc [dday] is bad
+romset airbustr is good
+romset nam1975 [neogeo] is bad
+romset maglord [neogeo] is bad
+romset maglordh [maglord] is bad
+romset alpham2 [neogeo] is bad
+romset sengoku [neogeo] is bad
+romset gpilots [neogeo] is bad
+romset bjourney [neogeo] is bad
+romset lresort [neogeo] is bad
+romset eightman [neogeo] is bad
+romset roboarmy [neogeo] is bad
+romset fatfury1 [neogeo] is bad
+romset crsword [neogeo] is bad
+romset trally [neogeo] is bad
+romset kotm2 [neogeo] is bad
+romset sengoku2 [neogeo] is bad
+romset tophuntr [neogeo] is bad
+romset androdun [neogeo] is bad
+romset ncommand [neogeo] is bad
+romset viewpoin [neogeo] is bad
+romset savagere [neogeo] is bad
+romset samsho2 [neogeo] is bad
+romset wjammers [neogeo] is bad
+romset fatfury3 [neogeo] is bad
+romset aodk [neogeo] is bad
+romset sonicwi2 [neogeo] is bad
+romset zedblade [neogeo] is bad
+romset galaxyfg [neogeo] is bad
+romset ssideki3 [neogeo] is bad
+romset pbobble [neogeo] is bad
+romset samsho3 [neogeo] is bad
+romset whp [neogeo] is bad
+romset kabukikl [neogeo] is bad
+romset gowcaizr [neogeo] is bad
+romset aof3 [neogeo] is bad
+romset sonicwi3 [neogeo] is bad
+romset mslug [neogeo] is bad
+romset neomrdo [neogeo] is bad
+romset overtop [neogeo] is bad
+romset neodrift [neogeo] is bad
+romset kof96 [neogeo] is bad
+romset kizuna [neogeo] is bad
+romset ninjamas [neogeo] is bad
+romset ragnagrd [neogeo] is bad
+romset magdrop2 [neogeo] is bad
+romset samsho4 [neogeo] is bad
+romset twinspri [neogeo] is bad
+romset wakuwak7 [neogeo] is bad
+romset breakers [neogeo] is bad
+romset magdrop3 [neogeo] is bad
+romset lastblad [neogeo] is bad
+romset shocktro [neogeo] is bad
+romset rbff2 [neogeo] is bad
+romset mslug2 [neogeo] is bad
+romset kof98 [neogeo] is bad
+romset breakrev [breakers] is bad
+romset flipshot [neogeo] is bad
+227 romsets found, 144 were OK.

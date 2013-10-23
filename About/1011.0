@@ -1,0 +1,23 @@
+/* Event Clicked/selected - CHECK FOR UPDATE  1011 */
+Arg window self
+
+homepagecall1='netscape.exe http://home1.gte.net/stefanj/mamerun.htm'
+homepagecall2='linkup.exe explore.exe http://home1.gte.net/stefanj/mamerun.htm'
+netprog1='c:\netscape\program\netscape.exe'
+netprog2='c:\netscape\netscape.exe'
+expprog='c:\tcpip\bin\explore.exe'
+net1exist=stream(netprog1,'C','QUERY EXISTS')
+net2exist=stream(netprog2,'C','QUERY EXISTS')
+expexist=stream(expprog,'C','QUERY EXISTS')
+
+if LENGTH(net1exist) > 0 | LENGTH(net2exist) > 0
+  then
+    START homepagecall1
+  else
+    do
+      if LENGTH(expexist) > 0
+        then
+          START homepagecall2
+        else
+          response=VpMessageBox(window,'MAMERun - Update','No known browser.  Please go to HTTP://home1.gte.net/stefanj/.')
+    end

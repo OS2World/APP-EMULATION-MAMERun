@@ -1,0 +1,14 @@
+/* Menu events - ~Error Log */
+Arg window self
+
+errorlog=mamedir||'error.log'
+
+say errorlog
+rc=stream(errorlog,'C','QUERY EXISTS')
+say rc
+
+if rc > 0 then
+  e rc
+else
+  response=VpMessageBox(window,'MAMERun - Error Log','Error Log does not exist.')
+

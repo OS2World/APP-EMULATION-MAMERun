@@ -1,0 +1,9 @@
+/* Menu events - ~Error Log */
+Arg window self
+
+errorlog=mamerundir||'error.log'
+
+rc=stream(errorlog,'C','QUERY EXISTS')
+
+if errorlog > 0 then
+  

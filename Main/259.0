@@ -1,0 +1,4 @@
+/* Menu events - E~xit */
+Arg window self
+
+CALL VpWindow window,'CLOSE'

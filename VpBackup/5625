@@ -1,0 +1,52 @@
+/* Event Clicked/selected - DONE  1006 */
+Arg window self
+
+
+if length(mameprog) > 0 then
+else
+
+rc=stream(mameprog,'C','QUERY EXISTS')
+
+
+
+
+savesettings=1
+
+/* set the mame program file */
+mameprog=vpgetitemvalue(window,1002)
+
+/* set the mame dir */
+/* drive=filespec('drive',mameprog)
+path=filespec('path',mameprog) */
+
+mamedrive=filespec('drive',mameprog)
+mamepath=filespec('path',mameprog)
+mamedir=mamedrive||mamepath
+romdir=mamedir||'roms\'
+
+
+
+/* mamedir=drive||path
+romdir=mamedir||'roms\' */
+romfile=romdir||'*.zip'
+
+/* set the alt rom dir */
+altromdir=vpgetitemvalue(window,1004)
+altromfile=altromdir||'*.zip'
+
+/* set the external command */
+/* Get item value 1008 Entry Field */
+extcmd = VpGetItemValue(window,1008)
+
+
+/* if length(iniloc) > 0 then
+  do
+    CALL LINEOUT iniloc,mameprog,1
+    CALL LINEOUT iniloc,altromdir
+    CALL LINEOUT iniloc,extcmd
+    rc=stream(iniloc,'C','CLOSE')
+  end  */
+
+CALL VpNotify window,'message'
+
+CALL VpWindow window,"CLOSE"
